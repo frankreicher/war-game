@@ -81,10 +81,6 @@ function dealCards(deck) {
     document.querySelector('#opponent-cards').innerHTML = opponentDeck.join(' ');
     document.querySelector('#player-cards').innerHTML = playerDeck.join(' ');
 
-    // Update card images
-    displayCard('opponent', opponentDeck[0]);
-    displayCard('player', playerDeck[0]);
-
 }
 
 // Displays selected card
@@ -92,47 +88,7 @@ function displayCard(char, card) {
     document.querySelector('#' + char + '-card').src = './assets/img/cards/' + card + '.png';
 }
 
-window.addEventListener('load', function () {
-
-    // Correctly align cards.
-    alignCards();
-
-    // Generate cards
-    var deck = generateDeck();
-
-    // Shuffle deck
-    deck = shuffle(deck);
-
-    // Deal cards
-    dealCards(deck);
-
-    var cards = document.querySelectorAll('.card-wrapper');
-    for (var i = 0; i < cards.length; i++) {
-        cards[i].addEventListener('click', function () {
-            var playerDeck = document.querySelector('#player-cards').innerHTML.split(' ');
-            var opponentDeck = document.querySelector('#opponent-cards').innerHTML.split(' ');
-
-            // Display next card
-            displayCard('opponent', opponentDeck[0]);
-            displayCard('player', playerDeck[0]);
-
-            // Determine winner
-            var playerValue = getCardValue(playerDeck[0].split('_')[0]);
-            var opponentValue = getCardValue(opponentDeck[0].split('_')[0]);
-
-            if (playerValue > opponentValue) {
-
-            } else if (opponentValue < playerValue) {
-
-            } else {
-                // tie
-            }
-
-        });
-    }
-
-});
-
+// Get numerical value of card for comparison
 function getCardValue(card) {
 
     var value = 0;
@@ -151,3 +107,63 @@ function getCardValue(card) {
     return value;
 
 }
+
+// Completes a turn of the game.
+function getTurn() {
+    var playerDeck = document.querySelector('#player-cards').innerHTML.split(' ');
+    var opponentDeck = document.querySelector('#opponent-cards').innerHTML.split(' ');
+    var tieDeck = document.querySelector('#tie-cards').innerHTML.split(' ');
+
+    // Display next card
+    displayCard('opponent', opponentDeck[0]);
+    displayCard('player', playerDeck[0]);
+
+
+    // Determine winner
+    var playerValue = getCardValue(playerDeck[0].split('_')[0]);
+    var opponentValue = getCardValue(opponentDeck[0].split('_')[0]);
+
+    if (playerValue > opponentValue) {
+        playerDeck.push(opponentDeck[0]);
+        playerDeck.push(playerDeck.splice(0,1));
+        playerDeck.concat(tieDeck);
+        opponentDeck.splice(0,1);
+    } else if (opponentValue > playerValue) {
+        opponentDeck.push(playerDeck[0]);
+        opponentDeck.push(opponentDeck.splice(0,1));
+        opponentDeck.concat(tieDeck);
+        playerDeck.splice(0,1);
+    } else {
+        // tie
+        tieDeck.push(playerDeck[0]);
+        tieDeck.push(opponentDeck[0]);
+        playerDeck.splice(0,1);
+        opponentDeck.splice(0,1);
+        document.querySelector('#tie-cards').innerHTML = tieDeck.join(' ');
+    }
+
+    // Update decks
+    document.querySelector('#player-cards').innerHTML = playerDeck.join(' ');
+    document.querySelector('#opponent-cards').innerHTML = opponentDeck.join(' ');
+}
+
+window.addEventListener('load', function () {
+
+    // Correctly align cards.
+    alignCards();
+
+    // Generate cards
+    var deck = generateDeck();
+
+    // Shuffle deck
+    deck = shuffle(deck);
+
+    // Deal cards
+    dealCards(deck);
+
+    var cards = document.querySelectorAll('.card-wrapper');
+    for (var i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', getTurn);
+    }
+
+});
