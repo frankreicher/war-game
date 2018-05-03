@@ -106,4 +106,48 @@ window.addEventListener('load', function () {
     // Deal cards
     dealCards(deck);
 
+    var cards = document.querySelectorAll('.card-wrapper');
+    for (var i = 0; i < cards.length; i++) {
+        cards[i].addEventListener('click', function () {
+            var playerDeck = document.querySelector('#player-cards').innerHTML.split(' ');
+            var opponentDeck = document.querySelector('#opponent-cards').innerHTML.split(' ');
+
+            // Display next card
+            displayCard('opponent', opponentDeck[0]);
+            displayCard('player', playerDeck[0]);
+
+            // Determine winner
+            var playerValue = getCardValue(playerDeck[0].split('_')[0]);
+            var opponentValue = getCardValue(opponentDeck[0].split('_')[0]);
+
+            if (playerValue > opponentValue) {
+
+            } else if (opponentValue < playerValue) {
+
+            } else {
+                // tie
+            }
+
+        });
+    }
+
 });
+
+function getCardValue(card) {
+
+    var value = 0;
+    if (card == 'ace') {
+        value = 14;
+    } else if (card == 'jack') {
+        value = 11;
+    } else if (card == 'queen') {
+        value = 12;
+    } else if (card == 'king') {
+        value = 13;
+    } else {
+        value = Number(card);
+    }
+
+    return value;
+
+}
