@@ -48,6 +48,10 @@ img {
 
 }
 
+#opponent-cards {
+    display: none;
+}
+
 /****************************************
     PLAYER
 ****************************************/
@@ -58,4 +62,8 @@ img {
 
 #player-card {
     margin-right: 50px;
+}
+
+#player-cards {
+    display: none;
 }
