@@ -1,0 +1,61 @@
+html {
+    box-sizing: border-box;
+}
+
+*, *::after, *::before {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+/****************************************
+    GLOBAL
+****************************************/
+body {
+    background-color: green;
+}
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.clear {
+    clear: both;
+}
+
+img {
+    width: 200px;
+    display: inline-block;
+}
+
+.card-wrapper {
+    position: absolute;
+}
+
+/****************************************
+    OPPONENT
+****************************************/
+#opponent-wrapper {
+    top: 10px;
+}
+
+#opponent-card {
+    margin-left: 50px;
+}
+
+#opponent-deck {
+
+}
+
+/****************************************
+    PLAYER
+****************************************/
+#player-wrapper {
+    bottom: 10px;
+
+}
+
+#player-card {
+    margin-right: 50px;
+}
