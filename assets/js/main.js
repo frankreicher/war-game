@@ -108,6 +108,28 @@ function getCardValue(card) {
 
 }
 
+// Check if a player has won the game, and if so, stop the game. (Should I make a reset button?)
+function checkIfWon() {
+
+    var playerDeck = document.querySelector('#player-cards').innerHTML.split(' ');
+    var opponentDeck = document.querySelector('#opponent-cards').innerHTML.split(' ');
+
+    if (playerDeck.length == 0) {
+        alert('Player has won!');
+        var cards = document.querySelectorAll('.card-wrapper');
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].removeEventListener('click', getTurn);
+        }
+    } else if (opponentDeck.length == 0) {
+        alert('Opponent has won!');
+        var cards = document.querySelectorAll('.card-wrapper');
+        for (var i = 0; i < cards.length; i++) {
+            cards[i].removeEventListener('click', getTurn);
+        }
+    }
+
+}
+
 // Completes a turn of the game.
 function getTurn() {
     var playerDeck = document.querySelector('#player-cards').innerHTML.split(' ');
@@ -142,10 +164,19 @@ function getTurn() {
         document.querySelector('#tie-cards').innerHTML = tieDeck.join(' ');
     }
 
+    // Update scores
+    document.querySelector('#player-score').innerHTML = playerDeck.length;
+    document.querySelector('#opponent-score').innerHTML = opponentDeck.length;
+
     // Update decks
     document.querySelector('#player-cards').innerHTML = playerDeck.join(' ');
     document.querySelector('#opponent-cards').innerHTML = opponentDeck.join(' ');
+
+    // Check if the game is over
+    checkIfWon();
 }
+
+
 
 window.addEventListener('load', function () {
 
